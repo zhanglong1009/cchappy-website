@@ -31,8 +31,8 @@ const translatedProjects = computed(() => {
   const currentLocale = locale.value
   return projects.map(project => ({
     ...project,
-    name: t(`projects.${project.id}.name`,currentLocale),
-    description: t(`projects.${project.id}.description`,currentLocale)
+    name: t(`projects.${project.id}.name`, currentLocale),
+    description: t(`projects.${project.id}.description`, currentLocale)
   }));
 });
 </script>
@@ -62,6 +62,10 @@ const translatedProjects = computed(() => {
           <button class="nav-button theme-button" @click="toggleTheme" aria-label="Toggle theme">
             {{ theme === 'light' ? '🌙' : '☀️' }}
           </button>
+          <a class="git-button" href="https://github.com/zhanglong1009/cchappy-website">
+            <img v-if="theme === 'light'" class="git-icon" src="@/assets/github-light.svg" alt="github" />
+            <img v-else class="git-icon" src="@/assets/github-dark.svg" alt="github" />
+          </a>
         </nav>
       </div>
     </header>
@@ -79,11 +83,10 @@ const translatedProjects = computed(() => {
       <!-- 项目入口网格 -->
       <section class="projects-grid">
         <a v-for="project in translatedProjects" :key="project.id" :href="getProjectUrl(project)"
-          :class="['project-card', `project-card-${project.id}`]"
-          :style="{ 
-            '--accent-color': project.accent, 
+          :class="['project-card', `project-card-${project.id}`]" :style="{
+            '--accent-color': project.accent,
             '--card-color': project.color,
-            '--background-image': project.backgroundImage 
+            '--background-image': project.backgroundImage
           }">
           <!-- 项目卡片装饰 -->
           <div class="card-decoration">
@@ -114,4 +117,14 @@ const translatedProjects = computed(() => {
 <style>
 /* 引用公共样式 */
 @import '@cchappy/ui/src/styles/global.css';
+
+
+.git-button {
+  line-height: 0;
+}
+
+.git-icon {
+  width: 32px;
+  height: 32px;
+}
 </style>
