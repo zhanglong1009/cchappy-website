@@ -120,7 +120,7 @@ pnpm typecheck
 | 命令类型 | 支持的命令 | 描述 |
 | --- | --- | --- |
 | 开发命令 | `dev:home`, `dev:blog`, `dev:three-demo`, `dev:tools` | 启动单个应用的开发服务器 |
-| 构建命令 | `build:home`, `build:blog`, `build:three-demo`, `build:tools`, `build:ui`, `build:utils` | 构建单个应用或包 |
+| 构建命令 | `build:home`, `build:blog`, `build:three-demo`, `build:tools` | 构建单个应用或包 |
 
 ## 子应用说明
 

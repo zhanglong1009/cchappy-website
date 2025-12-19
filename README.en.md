@@ -116,7 +116,7 @@ pnpm typecheck
 | Command Type | Supported Commands | Description |
 | --- | --- | --- |
 | Development Commands | `dev:home`, `dev:blog`, `dev:three-demo`, `dev:tools` | Start development server for a single application |
-| Build Commands | `build:home`, `build:blog`, `build:three-demo`, `build:tools`, `build:ui`, `build:utils` | Build a single application or package |
+| Build Commands | `build:home`, `build:blog`, `build:three-demo`, `build:tools` | Build a single application or package |
 
 ## Sub-application Description
 
