@@ -6,7 +6,15 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "typecheck": "turbo typecheck"
+    "typecheck": "turbo typecheck",
+    "dev:home": "turbo dev --filter @cchappy/home",
+    "dev:blog": "turbo dev --filter @cchappy/blog",
+    "dev:three-demo": "turbo dev --filter @cchappy/three-demo",
+    "dev:tools": "turbo dev --filter @cchappy/tools",
+    "build:home": "turbo build --filter @cchappy/home",
+    "build:blog": "turbo build --filter @cchappy/blog",
+    "build:three-demo": "turbo build --filter @cchappy/three-demo",
+    "build:tools": "turbo build --filter @cchappy/tools"
   },
   "devDependencies": {
     "turbo": "^2.2.3"
