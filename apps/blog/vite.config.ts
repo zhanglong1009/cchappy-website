@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import path from 'path'
+import { resolve } from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -12,8 +12,7 @@ export default defineConfig({
   base:'./',
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
-      '@cchappy/ui': path.resolve(__dirname, '../../packages/ui')
+      '@': resolve(__dirname, 'src')
     }
   }
 })
