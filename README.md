@@ -6,6 +6,8 @@
 
 CC Happy Website 是一个基于 Vue 3 + TypeScript + Vite 构建的现代化网站项目，采用 Monorepo 架构管理多个子应用。该项目旨在展示和分享各种技术 demo、博客文章以及实用工具。
 
+**项目预览地址：** [https://www.cchappy.top/](https://www.cchappy.top/)
+
 ## 技术栈
 
 - **前端框架**: Vue 3
