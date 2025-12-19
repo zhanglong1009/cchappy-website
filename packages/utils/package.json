@@ -1,0 +1,13 @@
+{
+  "name": "@cchappy/utils",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "vue": "^3.5.24"
+  }
+}

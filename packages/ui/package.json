@@ -1,0 +1,25 @@
+{
+  "name": "@cchappy/ui",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "types": "./src/index.ts"
+    },
+    "./src/styles/global.css": {
+      "import": "./src/styles/global.css",
+      "types": false
+    }
+  },
+  "scripts": {
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "typecheck": "vue-tsc -b"
+  },
+  "dependencies": {
+    "vue": "^3.5.24"
+  }
+}
