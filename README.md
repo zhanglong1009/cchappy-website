@@ -55,6 +55,22 @@ pnpm install
 pnpm dev
 ```
 
+使用快捷命令启动单个应用的开发服务器：
+
+```bash
+# 开发主站应用
+pnpm dev:home
+
+# 开发博客应用
+pnpm dev:blog
+
+# 开发Three.js演示应用
+pnpm dev:three-demo
+
+# 开发工具集合应用
+pnpm dev:tools
+```
+
 ### 构建生产版本
 
 构建所有应用：
@@ -63,17 +79,46 @@ pnpm dev
 pnpm build
 ```
 
+使用快捷命令构建单个应用或包：
+
+```bash
+# 构建主站应用
+pnpm build:home
+
+# 构建博客应用
+pnpm build:blog
+
+# 构建Three.js演示应用
+pnpm build:three-demo
+
+# 构建工具集合应用
+pnpm build:tools
+```
+
 ### 代码检查
+
+检查所有应用和包的代码：
 
 ```bash
 pnpm lint
 ```
 
+
+
 ### 类型检查
+
+检查所有应用和包的类型：
 
 ```bash
 pnpm typecheck
 ```
+
+### 支持的快捷命令列表
+
+| 命令类型 | 支持的命令 | 描述 |
+| --- | --- | --- |
+| 开发命令 | `dev:home`, `dev:blog`, `dev:three-demo`, `dev:tools` | 启动单个应用的开发服务器 |
+| 构建命令 | `build:home`, `build:blog`, `build:three-demo`, `build:tools`, `build:ui`, `build:utils` | 构建单个应用或包 |
 
 ## 子应用说明
 

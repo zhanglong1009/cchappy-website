@@ -55,6 +55,22 @@ Start the development server for all applications:
 pnpm dev
 ```
 
+Start the development server for a single application using shortcut commands:
+
+```bash
+# Develop main website application
+pnpm dev:home
+
+# Develop blog application
+pnpm dev:blog
+
+# Develop Three.js demo application
+pnpm dev:three-demo
+
+# Develop tools collection application
+pnpm dev:tools
+```
+
 ### Build Production Version
 
 Build all applications:
@@ -63,17 +79,42 @@ Build all applications:
 pnpm build
 ```
 
+Build a single application or package using shortcut commands:
+
+```bash
+# Build main website application
+pnpm build:home
+
+# Build blog application
+pnpm build:blog
+
+# Build Three.js demo application
+pnpm build:three-demo
+
+# Build tools collection application
+pnpm build:tools
+```
+
 ### Code Linting
+
+Lint all applications and packages:
 
 ```bash
 pnpm lint
 ```
-
 ### Type Checking
+
+Check types for all applications and packages:
 
 ```bash
 pnpm typecheck
 ```
+### Supported Shortcut Commands
+
+| Command Type | Supported Commands | Description |
+| --- | --- | --- |
+| Development Commands | `dev:home`, `dev:blog`, `dev:three-demo`, `dev:tools` | Start development server for a single application |
+| Build Commands | `build:home`, `build:blog`, `build:three-demo`, `build:tools`, `build:ui`, `build:utils` | Build a single application or package |
 
 ## Sub-application Description
 
@@ -96,9 +137,3 @@ Collection of practical tools, including various online tools.
 ## Contribution Guidelines
 
 Welcome to submit Issues and Pull Requests!
-
-## License
-
-MIT
-
----
