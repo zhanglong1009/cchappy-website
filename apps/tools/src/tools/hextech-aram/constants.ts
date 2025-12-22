@@ -75,7 +75,7 @@ export const championAliases: Record<string, string[]> = {
   'Lissandra': ['丽桑卓', '冰霜女巫', '冰女'],
   'Lucian': ['卢锡安', '圣枪游侠', '奥巴马'],
   'Lulu': ['璐璐', '仙灵女巫'],
-  'Lux': ['拉克丝', '光辉女郎'],
+  'Lux': ['拉克丝', '光辉女郎', '光辉', '光女'],
   'Aurora': ['兔子', '阿罗拉'],
   'Malphite': ['石头人', '熔岩巨兽'],
   'Malzahar': ['蚂蚱', '虚空先知', '玛尔扎哈'],
