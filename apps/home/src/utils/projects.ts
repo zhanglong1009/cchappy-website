@@ -28,7 +28,7 @@ export const projects: Project[] = [
     id: 'threeD', 
     name: 'threeD', 
     description: '三维创作', 
-    href: 'https://www.cchappy.top/3d/', 
+    href: 'https://www.cchappy.top/anim/', 
     port: 5175,
     color: '#f0f0f3', 
     accent: '#9B59B6',
