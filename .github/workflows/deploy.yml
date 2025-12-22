@@ -63,49 +63,51 @@ jobs:
       # 8. 只上传受影响 apps（先清空目录）
       - name: Upload affected apps to Qiniu OSS
         run: |
-          rm -f refresh.txt
-
-          APPS=$(jq -r '.packages[]' affected.json)
-
-          if [ -z "$APPS" ]; then
+            rm -f refresh.txt
+            # 如果 affected.json 中没有 packages，直接退出
+            if ! jq -e '.packages and (.packages | length > 0)' affected.json > /dev/null; then
             echo "No affected apps, skip upload"
             exit 0
-          fi
+            fi
 
-          for name in $APPS; do
+            APPS=$(jq -r '.packages[]' affected.json)
+
+            for name in $APPS; do
             dist="apps/$name/dist"
 
             if [ ! -d "$dist" ]; then
-              echo "Skip $name, no dist directory"
-              continue
+                echo "Skip $name, no dist directory"
+                continue
             fi
 
             if [ "$name" = "home" ]; then
-              echo "Clear OSS root and upload home"
-              qshell rmr "${{ secrets.QINIU_BUCKET }}" ""
+                echo "Clear OSS root and upload home"
+                qshell rmr "${{ secrets.QINIU_BUCKET }}" ""
 
-              qshell qupload2 \
+                qshell qupload2 \
                 --src-dir="$dist" \
                 --bucket="${{ secrets.QINIU_BUCKET }}" \
                 --overwrite
 
-              echo "https://${{ secrets.QINIU_CDN_DOMAIN }}/" >> refresh.txt
+                echo "https://${{ secrets.QINIU_CDN_DOMAIN }}/" >> refresh.txt
             else
-              echo "Clear /$name and upload"
-              qshell rmr "${{ secrets.QINIU_BUCKET }}" "$name"
+                echo "Clear /$name and upload"
+                qshell rmr "${{ secrets.QINIU_BUCKET }}" "$name"
 
-              qshell qupload2 \
+                qshell qupload2 \
                 --src-dir="$dist" \
                 --bucket="${{ secrets.QINIU_BUCKET }}" \
                 --key-prefix="$name/" \
                 --overwrite
 
-              echo "https://${{ secrets.QINIU_CDN_DOMAIN }}/$name/" >> refresh.txt
+                echo "https://${{ secrets.QINIU_CDN_DOMAIN }}/$name/" >> refresh.txt
             fi
-          done
+            done
 
-          echo "CDN refresh list:"
-          cat refresh.txt
+            if [ -f refresh.txt ]; then
+            echo "CDN refresh list:"
+            cat refresh.txt
+            fi
 
       # 9. 刷新 CDN 缓存
       - name: Refresh Qiniu CDN
