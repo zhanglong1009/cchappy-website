@@ -28,6 +28,60 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      # 5. 打包
-      - name: Build project
-        run: pnpm build
+      # 5. 只 build 有变更的 app
+      - name: Turbo build changed apps
+        run: |
+          pnpm turbo run build --filter=...[origin/main]
+
+      # 6. 找出本次 build 的 app
+      - name: Collect changed apps
+        id: apps
+        run: |
+          pnpm turbo run build --filter=...[origin/main] --dry=json \
+            | jq -r '.tasks[].package' \
+            | sed 's/@cchappy\///' \
+            | sort -u > apps.txt
+
+          echo "apps=$(paste -sd, apps.txt)" >> $GITHUB_OUTPUT
+          cat apps.txt
+
+      # 7. 安装七牛 CLI
+      - name: Install qiniu cli
+        run: |
+          wget https://devtools.qiniu.com/qshell-linux-amd64 -O qshell
+          chmod +x qshell
+          sudo mv qshell /usr/local/bin/qshell
+
+      # 8. 配置七牛
+      - name: Configure Qiniu
+        run: |
+          qshell account ${{ secrets.QINIU_ACCESS_KEY }} \
+                         ${{ secrets.QINIU_SECRET_KEY }} \
+                         github
+
+      # 9. 上传到 OSS（只上传变更的 app）
+      - name: Upload changed apps to Qiniu OSS
+        run: |
+          for app in $(cat apps.txt); do
+            echo "Deploying $app"
+
+            if [ "$app" = "home" ]; then
+              qshell sync ./apps/home/dist qiniu://${{ secrets.QINIU_BUCKET }}
+            else
+              qshell sync ./apps/$app/dist qiniu://${{ secrets.QINIU_BUCKET }}/$app
+            fi
+          done
+
+      # 10. 刷新 CDN 缓存
+      - name: Refresh Qiniu CDN
+        run: |
+          for app in $(cat apps.txt); do
+            if [ "$app" = "home" ]; then
+              qshell cdnrefresh --dirs https://${{ secrets.CDN_DOMAIN }}/
+            else
+              qshell cdnrefresh --dirs https://${{ secrets.CDN_DOMAIN }}/$app/
+            fi
+          done
+    
+    
+    
