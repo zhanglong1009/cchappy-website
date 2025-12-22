@@ -45,7 +45,8 @@ jobs:
       # 7. 安装七牛 CLI
       - name: Install qiniu cli
         run: |
-          wget  https://github.com/qiniu/qshell/releases/latest/download/qshell-linux-amd64 -O qshell
+          wget https://kodo-toolbox-new.qiniu.com/qshell-v2.17.0-linux-amd64.tar.gz
+          tar -zxvf qshell-v2.17.0-linux-amd64.tar.gz
           chmod +x qshell
           sudo mv qshell /usr/local/bin/qshell
 
