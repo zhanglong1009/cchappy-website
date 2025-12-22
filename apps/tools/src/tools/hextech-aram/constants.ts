@@ -15,7 +15,7 @@ export const championAliases: Record<string, string[]> = {
   'Aphelios': ['厄斐琉斯', '残月之肃', '吴亦凡', 'efls'],
   'Ashe': ['艾希', '寒冰射手', '寒冰'],
   'AurelionSol': ['龙王', '铸星龙王'],
-  'Azir': ['沙皇', '沙漠皇帝'],
+  'Azir': ['沙皇', '沙漠皇帝', 'azier'],
   'Bard': ['巴德', '星界游神'],
   'Blitzcrank': ['机器人', '蒸汽机器人'],
   'Brand': ['火男', '复仇焰魂', '布莱德'],
