@@ -38,6 +38,9 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import * as THREE from 'three';
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
 
 const sceneRef = ref(null);
 let scene, camera, renderer, particles, animationId;
@@ -242,7 +245,7 @@ const animate = () => {
       if (animationProgress >= 1.0) {
         // 添加一个短暂的延迟，给动画一个机会来完成
         setTimeout(() => {
-          window.history.back();
+          router.go(-1)
         }, 1000);
         // 不需要取消动画帧，跳转后页面会卸载，自动清理
       }
