@@ -10,9 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. 拉取代码
+      # 1. 拉取代码（必须完整历史，turbo 才能 diff）
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       # 2. 安装 Node
       - name: Setup Node.js
@@ -28,46 +30,60 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      # 5. 构建所有apps的包 (Turbo会自动跳过未更新的包)
-      - name: Turbo build
+      # 5. 只构建受影响的 apps，并输出 affected 列表
+      - name: Turbo build (affected only)
         run: |
-          pnpm turbo run build
+          pnpm turbo run build \
+            --filter=...[origin/main] \
+            --dry=json > affected.json
 
-      # 6. 安装七牛 CLI
+          echo "Affected apps:"
+          cat affected.json
+
+          # 真正执行 build
+          pnpm turbo run build --filter=...[origin/main]
+
+      # 6. 安装 qshell
       - name: Install qiniu cli
         run: |
           wget https://github.com/qiniu/qshell/releases/download/v2.9.0/qshell-v2.9.0-linux-amd64.tar.gz
-          # 解压
           tar -zxvf qshell-v2.9.0-linux-amd64.tar.gz
-          # 显示解压后的文件
-          ls -l
-          # 赋予执行权限并移动到系统目录（方便全局调用）
           chmod +x qshell
           sudo mv qshell /usr/local/bin/qshell
-          # 验证安装
           qshell -v
 
-      # 7. 配置七牛
+      # 7. 配置七牛账号
       - name: Configure Qiniu
         run: |
-          qshell account ${{ secrets.QINIU_ACCESS_KEY }} ${{ secrets.QINIU_SECRET_KEY }} qiniu-oss
+          qshell account \
+            ${{ secrets.QINIU_ACCESS_KEY }} \
+            ${{ secrets.QINIU_SECRET_KEY }} \
+            qiniu-oss
 
-      # 8. 上传到 OSS（只上传变更的 app）
-      - name: Upload changed apps to Qiniu OSS
+      # 8. 只上传受影响 apps（先清空目录）
+      - name: Upload affected apps to Qiniu OSS
         run: |
           rm -f refresh.txt
 
-          for dir in apps/*; do
-            name=$(basename "$dir")
-            dist="$dir/dist"
+          APPS=$(jq -r '.packages[]' affected.json)
+
+          if [ -z "$APPS" ]; then
+            echo "No affected apps, skip upload"
+            exit 0
+          fi
+
+          for name in $APPS; do
+            dist="apps/$name/dist"
 
             if [ ! -d "$dist" ]; then
-              echo "Skip $name, no dist"
+              echo "Skip $name, no dist directory"
               continue
             fi
 
             if [ "$name" = "home" ]; then
-              echo "Upload home to root"
+              echo "Clear OSS root and upload home"
+              qshell rmr "${{ secrets.QINIU_BUCKET }}" ""
+
               qshell qupload2 \
                 --src-dir="$dist" \
                 --bucket="${{ secrets.QINIU_BUCKET }}" \
@@ -75,7 +91,9 @@ jobs:
 
               echo "https://${{ secrets.QINIU_CDN_DOMAIN }}/" >> refresh.txt
             else
-              echo "Upload $name to /$name"
+              echo "Clear /$name and upload"
+              qshell rmr "${{ secrets.QINIU_BUCKET }}" "$name"
+
               qshell qupload2 \
                 --src-dir="$dist" \
                 --bucket="${{ secrets.QINIU_BUCKET }}" \
@@ -88,14 +106,12 @@ jobs:
 
           echo "CDN refresh list:"
           cat refresh.txt
+
       # 9. 刷新 CDN 缓存
       - name: Refresh Qiniu CDN
         run: |
-         if [ -s refresh.txt ]; then
-         qshell cdnrefresh -i refresh.txt
-         else
-         echo "No CDN refresh needed"
-         fi
-    
-    
-    
+          if [ -s refresh.txt ]; then
+            qshell cdnrefresh -i refresh.txt
+          else
+            echo "No CDN refresh needed"
+          fi
