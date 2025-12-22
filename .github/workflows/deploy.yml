@@ -76,28 +76,23 @@ jobs:
             DIRS=$(jq -r '.tasks[].directory' affected.json | sort -u)
 
             for dir in $DIRS; do
-            name=$(basename "$dir")
-            dist="$dir/dist"
+                name=$(basename "$dir")
+                dist="$dir/dist"
 
-            if [ ! -d "$dist" ]; then
-                echo "Skip $name, no dist directory"
-                continue
-            fi
+                if [ ! -d "$dist" ]; then
+                    echo "Skip $name, no dist directory"
+                    continue
+                fi
 
-            echo "Clear /$name and upload"
-            qshell listbucket "${{ secrets.QINIU_BUCKET }}" -p "$name/" > delete.txt
+                delete_prefix "${{ secrets.QINIU_BUCKET }}" "$name"
 
-            if [ -s delete.txt ]; then
-            qshell batchdelete "${{ secrets.QINIU_BUCKET }}" delete.txt
-            fi
+                qshell qupload2 \
+                    --src-dir="$dist" \
+                    --bucket="${{ secrets.QINIU_BUCKET }}" \
+                    --key-prefix="$name/" \
+                    --overwrite
 
-            qshell qupload2 \
-                --src-dir="$dist" \
-                --bucket="${{ secrets.QINIU_BUCKET }}" \
-                --key-prefix="$name/" \
-                --overwrite
-
-            echo "https://${{ secrets.QINIU_CDN_DOMAIN }}/$name/" >> refresh.txt
+                echo "https://${{ secrets.QINIU_CDN_DOMAIN }}/$name/" >> refresh.txt
             done
 
             if [ -f refresh.txt ]; then
