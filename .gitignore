@@ -33,3 +33,6 @@ dist-ssr
 
 # pnpm
 pnpm-lock.yaml
+
+# TypeScript incremental build
+**/*.tsbuildinfo

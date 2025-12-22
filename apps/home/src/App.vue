@@ -16,6 +16,9 @@ const toggleLang = () => {
   localStorage.setItem('language', locale.value);
 };
 
+const isZh = computed(() => locale.value === 'zh-CN')
+const isDark = computed(() => theme.value === 'dark')
+
 // 生成项目跳转链接
 const getProjectUrl = (project: typeof projects[0]) => {
   const isDev = import.meta.env.DEV;
@@ -56,15 +59,15 @@ const translatedProjects = computed(() => {
         <nav class="nav">
           <!-- 语言切换 -->
           <button class="nav-button language-button" @click="toggleLang" aria-label="Toggle language">
-            {{ locale === 'zh-CN' ? 'EN' : '中文' }}
+            {{ isZh ? 'EN' : '中文' }}
           </button>
           <!-- 主题切换 -->
           <button class="nav-button theme-button" @click="toggleTheme" aria-label="Toggle theme">
-            {{ theme === 'light' ? '🌙' : '☀️' }}
+            {{ isDark ? '☀️' : '🌙' }}
           </button>
           <a class="git-button" href="https://github.com/zhanglong1009/cchappy-website">
-            <img v-if="theme === 'light'" class="git-icon" src="@/assets/github-light.svg" alt="github" />
-            <img v-else class="git-icon" src="@/assets/github-dark.svg" alt="github" />
+            <img v-if="isDark" class="git-icon" src="@/assets/github-dark.svg" alt="github" />
+            <img v-else class="git-icon" src="@/assets/github-light.svg" alt="github" />
           </a>
         </nav>
       </div>

@@ -12,8 +12,7 @@ export default defineConfig({
   base:'./',
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
-      '@cchappy/ui': path.resolve(__dirname, '../../packages/ui')
+      '@': path.resolve(__dirname, './src')
     }
   }
 })
