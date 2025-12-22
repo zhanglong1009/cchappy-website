@@ -84,28 +84,20 @@ jobs:
                 continue
             fi
 
-            if [ "$name" = "home" ]; then
-                echo "Clear OSS root and upload home"
-                qshell rmr "${{ secrets.QINIU_BUCKET }}" ""
+            echo "Clear /$name and upload"
+            qshell listbucket "${{ secrets.QINIU_BUCKET }}" -p "$name/" > delete.txt
 
-                qshell qupload2 \
-                --src-dir="$dist" \
-                --bucket="${{ secrets.QINIU_BUCKET }}" \
-                --overwrite
+            if [ -s delete.txt ]; then
+            qshell batchdelete "${{ secrets.QINIU_BUCKET }}" delete.txt
+            fi
 
-                echo "https://${{ secrets.QINIU_CDN_DOMAIN }}/" >> refresh.txt
-            else
-                echo "Clear /$name and upload"
-                qshell rmr "${{ secrets.QINIU_BUCKET }}" "$name"
-
-                qshell qupload2 \
+            qshell qupload2 \
                 --src-dir="$dist" \
                 --bucket="${{ secrets.QINIU_BUCKET }}" \
                 --key-prefix="$name/" \
                 --overwrite
 
-                echo "https://${{ secrets.QINIU_CDN_DOMAIN }}/$name/" >> refresh.txt
-            fi
+            echo "https://${{ secrets.QINIU_CDN_DOMAIN }}/$name/" >> refresh.txt
             done
 
             if [ -f refresh.txt ]; then
