@@ -88,20 +88,6 @@ jobs:
 
           echo "CDN refresh list:"
           cat refresh.txt
-
-    
-      - name: Generate CDN refresh list
-        run: |
-         rm -f refresh.txt
-         for app in $(cat changed-apps.txt); do
-         if [ "$app" = "home" ]; then
-            echo "https://${{ secrets.QINIU_CDN_DOMAIN }}/" >> refresh.txt
-         else
-            echo "https://${{ secrets.QINIU_CDN_DOMAIN }}/$app/" >> refresh.txt
-         fi
-         done
-         echo "CDN refresh list:"
-         cat refresh.txt
       # 9. 刷新 CDN 缓存
       - name: Refresh Qiniu CDN
         run: |
