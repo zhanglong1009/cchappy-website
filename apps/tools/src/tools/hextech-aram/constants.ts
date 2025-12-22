@@ -54,7 +54,7 @@ export const championAliases: Record<string, string[]> = {
   'Jax': ['武器', '武器大师'],
   'Jayce': ['杰斯', '未来守护者'],
   'Jhin': ['烬', '戏命师', 'jin'],
-  'Jinx': ['金克丝', '暴走萝莉', 'jinx'],
+  'Jinx': ['金克丝', '暴走萝莉', 'jinx', '爆爆'],
   'Kaisa': ['卡莎', '虚空之女'],
   'Kalista': ['滑板鞋', '复仇之矛'],
   'Karma': ['扇子妈', '天启者', '卡尔玛'],

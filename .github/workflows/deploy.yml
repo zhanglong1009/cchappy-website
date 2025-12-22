@@ -66,6 +66,27 @@ jobs:
       # 8. 只上传受影响 apps（先清空目录）
       - name: Upload affected apps to Qiniu OSS
         run: |
+            set -e
+
+            # 定义删除函数
+            delete_prefix () {
+            local bucket="$1"
+            local prefix="$2"
+
+            rm -f delete_raw.txt delete_keys.txt
+
+            qshell listbucket "$bucket" -p "$prefix/" > delete_raw.txt
+
+            awk '{print $1}' delete_raw.txt > delete_keys.txt
+
+            if [ -s delete_keys.txt ]; then
+                echo "Deleting objects under /$prefix"
+                qshell batchdelete --force "$bucket" -i delete_keys.txt
+            else
+                echo "No objects under /$prefix"
+            fi
+            }
+
             rm -f refresh.txt
 
             if ! jq -e '.tasks and (.tasks | length > 0)' affected.json > /dev/null; then
@@ -76,23 +97,23 @@ jobs:
             DIRS=$(jq -r '.tasks[].directory' affected.json | sort -u)
 
             for dir in $DIRS; do
-                name=$(basename "$dir")
-                dist="$dir/dist"
+            name=$(basename "$dir")
+            dist="$dir/dist"
 
-                if [ ! -d "$dist" ]; then
-                    echo "Skip $name, no dist directory"
-                    continue
-                fi
+            if [ ! -d "$dist" ]; then
+                echo "Skip $name, no dist directory"
+                continue
+            fi
 
-                delete_prefix "${{ secrets.QINIU_BUCKET }}" "$name"
+            delete_prefix "${{ secrets.QINIU_BUCKET }}" "$name"
 
-                qshell qupload2 \
-                    --src-dir="$dist" \
-                    --bucket="${{ secrets.QINIU_BUCKET }}" \
-                    --key-prefix="$name/" \
-                    --overwrite
+            qshell qupload2 \
+                --src-dir="$dist" \
+                --bucket="${{ secrets.QINIU_BUCKET }}" \
+                --key-prefix="$name/" \
+                --overwrite
 
-                echo "https://${{ secrets.QINIU_CDN_DOMAIN }}/$name/" >> refresh.txt
+            echo "https://${{ secrets.QINIU_CDN_DOMAIN }}/$name/" >> refresh.txt
             done
 
             if [ -f refresh.txt ]; then
