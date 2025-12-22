@@ -135,7 +135,7 @@ export const championAliases: Record<string, string[]> = {
   'Thresh': ['锤石', '魂锁典狱长'],
   'Tristana': ['小炮', '麦林炮手'],
   'Trundle': ['巨魔', '巨魔之王'],
-  'Tryndamere': ['蛮子', '蛮族之王', '蛮王'],
+  'Tryndamere': ['蛮子', '蛮族之王', '真男人'],
   'TwistedFate': ['卡牌', '卡牌大师'],
   'Twitch': ['老鼠', '瘟疫之源', '图奇', '耗子'],
   'Udyr': ['乌迪尔', '兽灵行者'],

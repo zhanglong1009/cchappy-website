@@ -67,16 +67,17 @@ jobs:
       - name: Upload affected apps to Qiniu OSS
         run: |
             rm -f refresh.txt
-            # 如果 affected.json 中没有 packages，直接退出
-            if ! jq -e '.packages and (.packages | length > 0)' affected.json > /dev/null; then
-            echo "No affected apps, skip upload"
+
+            if ! jq -e '.tasks and (.tasks | length > 0)' affected.json > /dev/null; then
+            echo "No affected build tasks, skip upload"
             exit 0
             fi
 
-            APPS=$(jq -r '.packages[]' affected.json)
+            DIRS=$(jq -r '.tasks[].directory' affected.json | sort -u)
 
-            for name in $APPS; do
-            dist="apps/$name/dist"
+            for dir in $DIRS; do
+            name=$(basename "$dir")
+            dist="$dir/dist"
 
             if [ ! -d "$dist" ]; then
                 echo "Skip $name, no dist directory"
