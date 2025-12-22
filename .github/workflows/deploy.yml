@@ -33,16 +33,19 @@ jobs:
       # 5. 只构建受影响的 apps，并输出 affected 列表
       - name: Turbo build (affected only)
         run: |
-          pnpm turbo run build \
-            --filter=...[origin/main] \
-            --dry=json > affected.json
+          BASE_SHA=${{ github.event.before }}
 
-          echo "Affected apps:"
+          echo "Base SHA: $BASE_SHA"
+          echo "Current SHA: $GITHUB_SHA"
+
+          pnpm turbo run build \
+           --filter=...[$BASE_SHA] \
+           --dry=json > affected.json
+
           cat affected.json
 
           # 真正执行 build
-          pnpm turbo run build --filter=...[origin/main]
-
+          pnpm turbo run build --filter=...[$BASE_SHA]
       # 6. 安装 qshell
       - name: Install qiniu cli
         run: |
