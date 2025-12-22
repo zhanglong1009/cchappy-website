@@ -25,7 +25,7 @@ cchappy-website/
 ├── apps/                  # Sub-applications directory
 │   ├── blog/             # Blog application
 │   ├── home/             # Main website application
-│   ├── three-demo/       # Three.js demo application
+│   ├── anim/       # Three.js demo application
 │   └── tools/            # Collection of practical tools
 ├── packages/             # Shared packages
 │   ├── ui/               # UI component library
@@ -67,7 +67,7 @@ pnpm dev:home
 pnpm dev:blog
 
 # Develop Three.js demo application
-pnpm dev:three-demo
+pnpm dev:anim
 
 # Develop tools collection application
 pnpm dev:tools
@@ -91,7 +91,7 @@ pnpm build:home
 pnpm build:blog
 
 # Build Three.js demo application
-pnpm build:three-demo
+pnpm build:anim
 
 # Build tools collection application
 pnpm build:tools
@@ -115,8 +115,8 @@ pnpm typecheck
 
 | Command Type | Supported Commands | Description |
 | --- | --- | --- |
-| Development Commands | `dev:home`, `dev:blog`, `dev:three-demo`, `dev:tools` | Start development server for a single application |
-| Build Commands | `build:home`, `build:blog`, `build:three-demo`, `build:tools` | Build a single application or package |
+| Development Commands | `dev:home`, `dev:blog`, `dev:anim`, `dev:tools` | Start development server for a single application |
+| Build Commands | `build:home`, `build:blog`, `build:anim`, `build:tools` | Build a single application or package |
 
 ## Sub-application Description
 
@@ -128,7 +128,7 @@ Main website application, including project introduction, navigation, and main c
 
 Blog application for publishing and displaying technical articles.
 
-### three-demo
+### anim
 
 Three.js demo application showcasing 3D graphics technology.
 

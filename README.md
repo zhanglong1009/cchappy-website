@@ -25,7 +25,7 @@ cchappy-website/
 ├── apps/                  # 子应用目录
 │   ├── blog/             # 博客应用
 │   ├── home/             # 主站应用
-│   ├── three-demo/       # Three.js 演示应用
+│   ├── anim/       # Three.js 演示应用
 │   └── tools/            # 实用工具集合
 ├── packages/             # 共享包
 │   ├── ui/               # UI 组件库
@@ -67,7 +67,7 @@ pnpm dev:home
 pnpm dev:blog
 
 # 开发Three.js演示应用
-pnpm dev:three-demo
+pnpm dev:anim
 
 # 开发工具集合应用
 pnpm dev:tools
@@ -91,7 +91,7 @@ pnpm build:home
 pnpm build:blog
 
 # 构建Three.js演示应用
-pnpm build:three-demo
+pnpm build:anim
 
 # 构建工具集合应用
 pnpm build:tools
@@ -119,8 +119,8 @@ pnpm typecheck
 
 | 命令类型 | 支持的命令 | 描述 |
 | --- | --- | --- |
-| 开发命令 | `dev:home`, `dev:blog`, `dev:three-demo`, `dev:tools` | 启动单个应用的开发服务器 |
-| 构建命令 | `build:home`, `build:blog`, `build:three-demo`, `build:tools` | 构建单个应用或包 |
+| 开发命令 | `dev:home`, `dev:blog`, `dev:anim`, `dev:tools` | 启动单个应用的开发服务器 |
+| 构建命令 | `build:home`, `build:blog`, `build:anim`, `build:tools` | 构建单个应用或包 |
 
 ## 子应用说明
 
@@ -132,7 +132,7 @@ pnpm typecheck
 
 博客应用，用于发布和展示技术文章。
 
-### three-demo
+### anim
 
 Three.js 演示应用，展示 3D 图形技术。
 
