@@ -17,6 +17,8 @@ CC Happy Website is a modern website project built with Vue 3 + TypeScript + Vit
 - **Monorepo Management**: Turborepo
 - **Routing**: Vue Router (in some apps)
 - **Internationalization**: i18n
+- **CI/CD**: GitHub Actions
+- **Deployment**: OSS (Object Storage Service)
 
 ## Project Structure
 
@@ -117,6 +119,17 @@ pnpm typecheck
 | --- | --- | --- |
 | Development Commands | `dev:home`, `dev:blog`, `dev:anim`, `dev:tools` | Start development server for a single application |
 | Build Commands | `build:home`, `build:blog`, `build:anim`, `build:tools` | Build a single application or package |
+
+## Automated Deployment
+
+### CI/CD Workflow
+
+The project is configured with a complete CI/CD workflow based on GitHub Actions for automated building and deployment:
+
+1. **Trigger Condition**: Automatically triggers the CI/CD process when code is pushed to the `main` branch
+2. **Build Process**: Uses Turborepo to build all applications in parallel
+3. **Deployment Target**: Build artifacts are automatically deployed to OSS (Object Storage Service)
+4. **Deployment Result**: The website automatically updates after deployment is complete, no manual operation required
 
 ## Sub-application Description
 
