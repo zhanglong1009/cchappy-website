@@ -48,9 +48,11 @@ jobs:
           wget https://github.com/qiniu/qshell/releases/download/v2.9.0/qshell-v2.9.0-linux-amd64.tar.gz
           # 解压
           tar -zxvf qshell-v2.9.0-linux-amd64.tar.gz
+          # 显示解压后的文件
+          ls -l
           # 赋予执行权限并移动到系统目录（方便全局调用）
-          chmod +x qshell-v2.9.0-linux-amd64
-          sudo mv qshell-v2.9.0-linux-amd64 /usr/local/bin/qshell
+          chmod +x qshell
+          sudo mv qshell /usr/local/bin/qshell
           # 验证安装
           qshell -v
 
