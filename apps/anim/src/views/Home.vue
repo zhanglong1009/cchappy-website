@@ -1,30 +1,33 @@
 <template>
   <div class="app">
     <div ref="sceneRef" class="particle-scene"></div>
-    
+
     <!-- 返回按钮 -->
     <button class="back-button" @click="handleBack" :class="{ 'active': isAnimating }">
       <span class="back-icon">⬅️</span>
       <span class="back-text">返回上一页</span>
     </button>
-    
+
     <div class="menu-container" :class="{ 'sucked': isAnimating }">
       <nav class="menu">
-        <a href="https://www.cchappy.top/3d/shengdanshu.html" class="menu-item" target="_blank" :class="{ 'sucked': isAnimating }">
+        <a href="https://www.cchappy.top/3d/shengdanshu.html" class="menu-item" target="_blank"
+          :class="{ 'sucked': isAnimating }">
           <div class="menu-item-inner">
             <div class="menu-item-icon">🎄</div>
             <h3 class="menu-item-title">圣诞树</h3>
             <p class="menu-item-desc">绚丽的3D圣诞树动画效果</p>
           </div>
         </a>
-        <a href="https://www.cchappy.top/3d/tanhua.html" class="menu-item" target="_blank" :class="{ 'sucked': isAnimating }">
+        <a href="https://www.cchappy.top/3d/tanhua.html" class="menu-item" target="_blank"
+          :class="{ 'sucked': isAnimating }">
           <div class="menu-item-inner">
             <div class="menu-item-icon">🌸</div>
             <h3 class="menu-item-title">昙花</h3>
             <p class="menu-item-desc">唯美短暂的昙花绽放效果</p>
           </div>
         </a>
-        <a href="https://www.cchappy.top/3d/shanmai.html" class="menu-item" target="_blank" :class="{ 'sucked': isAnimating }">
+        <a href="https://www.cchappy.top/3d/shanmai.html" class="menu-item" target="_blank"
+          :class="{ 'sucked': isAnimating }">
           <div class="menu-item-inner">
             <div class="menu-item-icon">⛰️</div>
             <h3 class="menu-item-title">山脉</h3>
@@ -73,7 +76,7 @@ const initScene = () => {
 
   // 添加事件监听器
   window.addEventListener('resize', onWindowResize);
-  
+
   // 开始动画
   animate();
 };
@@ -85,7 +88,7 @@ const createParticles = () => {
   const positions = new Float32Array(particleCount * 3);
   const colors = new Float32Array(particleCount * 3);
   const sizes = new Float32Array(particleCount);
-  
+
   particleVelocities = new Float32Array(particleCount * 3);
 
   // 初始化粒子位置和颜色 - 宇宙星河分布
@@ -94,16 +97,16 @@ const createParticles = () => {
     positions[i] = (Math.random() - 0.5) * 100;
     positions[i + 1] = (Math.random() - 0.5) * 100;
     positions[i + 2] = (Math.random() - 0.5) * 100;
-    
+
     // 缓慢随机速度 - 无规律流动
     particleVelocities[i] = (Math.random() - 0.5) * 0.01;
     particleVelocities[i + 1] = (Math.random() - 0.5) * 0.01;
     particleVelocities[i + 2] = (Math.random() - 0.5) * 0.01;
-    
+
     // 随机生成粒子大小 - 星星大小变化
     const size = 0.1 + Math.random() * 0.5;
     sizes[i / 3] = size;
-    
+
     // 随机星球颜色 - 模拟宇宙中不同颜色的星球
     const randomColor = () => {
       // 生成随机HSL颜色
@@ -113,7 +116,7 @@ const createParticles = () => {
       const hue = Math.random();
       const saturation = 0.6 + Math.random() * 0.4;
       const lightness = 0.5 + Math.random() * 0.5;
-      
+
       // HSL转RGB
       const hslToRgb = (h, s, l) => {
         let r, g, b;
@@ -123,23 +126,23 @@ const createParticles = () => {
           const hue2rgb = (p, q, t) => {
             if (t < 0) t += 1;
             if (t > 1) t -= 1;
-            if (t < 1/6) return p + (q - p) * 6 * t;
-            if (t < 1/2) return q;
-            if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+            if (t < 1 / 6) return p + (q - p) * 6 * t;
+            if (t < 1 / 2) return q;
+            if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
             return p;
           };
           const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
           const p = 2 * l - q;
-          r = hue2rgb(p, q, h + 1/3);
+          r = hue2rgb(p, q, h + 1 / 3);
           g = hue2rgb(p, q, h);
-          b = hue2rgb(p, q, h - 1/3);
+          b = hue2rgb(p, q, h - 1 / 3);
         }
         return { r, g, b };
       };
-      
+
       return hslToRgb(hue, saturation, lightness);
     };
-    
+
     // 生成随机星球颜色
     const color = randomColor();
     colors[i] = color.r;
@@ -150,7 +153,7 @@ const createParticles = () => {
   geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
   geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
   geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-  
+
   particlePositions = geometry.attributes.position.array;
 
   // 创建圆形粒子纹理
@@ -160,22 +163,22 @@ const createParticles = () => {
     const size = 64;
     canvas.width = size;
     canvas.height = size;
-    
+
     // 创建径向渐变，中心透明，边缘不透明
     const gradient = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
     gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
     gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.8)');
     gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-    
+
     // 绘制圆形
     ctx.fillStyle = gradient;
     ctx.beginPath();
     ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
     ctx.fill();
-    
+
     return new THREE.CanvasTexture(canvas);
   };
-  
+
   // 创建材质 - 适合宇宙星星，使用圆形纹理
   const material = new THREE.PointsMaterial({
     size: 0.6,
@@ -205,11 +208,11 @@ const onWindowResize = () => {
 // 返回按钮点击事件
 const handleBack = () => {
   if (isAnimating.value) return;
-  
+
   // 开始动画
   isAnimating.value = true;
   animationProgress = 0;
-  
+
   // 黑洞位置设置为屏幕中心
   blackHolePosition = { x: 0, y: 0, z: 0 };
 };
@@ -217,35 +220,39 @@ const handleBack = () => {
 // 动画循环 - 粒子无规律缓慢流动或被黑洞吸入
 const animate = () => {
   animationId = requestAnimationFrame(animate);
-  
+
   if (particles) {
     if (isAnimating.value) {
       // 黑洞吸入动画 - 减慢动画进度增长，让动画更长
       animationProgress += 0.01;
-      
+
       for (let i = 0; i < particleCount * 3; i += 3) {
         // 计算粒子到黑洞的距离
         const dx = blackHolePosition.x - particlePositions[i];
         const dy = blackHolePosition.y - particlePositions[i + 1];
         const dz = blackHolePosition.z - particlePositions[i + 2];
         const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
-        
+
         // 黑洞引力强度 - 适中的引力，让粒子缓慢被吸入
         const gravityStrength = Math.min(1, 60 / (distance * distance)) * animationProgress;
-        
+
         // 更新粒子位置，被黑洞吸入 - 减慢吸入速度
         particlePositions[i] += dx * gravityStrength * 0.1;
         particlePositions[i + 1] += dy * gravityStrength * 0.1;
         particlePositions[i + 2] += dz * gravityStrength * 0.1;
       }
-      
+
       particles.geometry.attributes.position.needsUpdate = true;
-      
+
       // 动画进度达到1.0时再执行跳转，让动画完全结束
       if (animationProgress >= 1.0) {
         // 添加一个短暂的延迟，给动画一个机会来完成
         setTimeout(() => {
-          router.go(-1)
+          if (history.length > 1) {
+            history.back();
+          } else {
+            location.href = 'https://www.cchappy.top/';
+          }
         }, 1000);
         // 不需要取消动画帧，跳转后页面会卸载，自动清理
       }
@@ -256,12 +263,12 @@ const animate = () => {
         particlePositions[i] += particleVelocities[i];
         particlePositions[i + 1] += particleVelocities[i + 1];
         particlePositions[i + 2] += particleVelocities[i + 2];
-        
+
         // 随机微小速度变化 - 无规律流动
         particleVelocities[i] += (Math.random() - 0.5) * 0.0005;
         particleVelocities[i + 1] += (Math.random() - 0.5) * 0.0005;
         particleVelocities[i + 2] += (Math.random() - 0.5) * 0.0005;
-        
+
         // 速度限制 - 保持缓慢流动
         const maxSpeed = 0.015;
         if (particleVelocities[i] > maxSpeed) particleVelocities[i] = maxSpeed;
@@ -270,7 +277,7 @@ const animate = () => {
         if (particleVelocities[i + 1] < -maxSpeed) particleVelocities[i + 1] = -maxSpeed;
         if (particleVelocities[i + 2] > maxSpeed) particleVelocities[i + 2] = maxSpeed;
         if (particleVelocities[i + 2] < -maxSpeed) particleVelocities[i + 2] = -maxSpeed;
-        
+
         // 边界循环 - 粒子在空间中循环
         if (particlePositions[i] > 50) particlePositions[i] = -50;
         if (particlePositions[i] < -50) particlePositions[i] = 50;
@@ -279,7 +286,7 @@ const animate = () => {
         if (particlePositions[i + 2] > 50) particlePositions[i + 2] = -50;
         if (particlePositions[i + 2] < -50) particlePositions[i + 2] = 50;
       }
-      
+
       particles.geometry.attributes.position.needsUpdate = true;
     }
   }
@@ -467,9 +474,12 @@ body {
 
 /* 脉冲动画 */
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1.3) rotate(15deg);
   }
+
   50% {
     transform: scale(1.5) rotate(15deg);
   }
@@ -498,6 +508,7 @@ body {
     opacity: 0;
     transform: translateY(50px) scale(0.8);
   }
+
   to {
     opacity: 0.9;
     transform: translateY(0) scale(1);
@@ -556,9 +567,12 @@ body {
 
 /* 返回按钮脉冲动画 */
 @keyframes backButtonPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.05);
   }
@@ -579,6 +593,7 @@ body {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
   }
+
   100% {
     transform: translate(-50%, -50%) scale(0);
     opacity: 0;
@@ -591,21 +606,25 @@ body {
     transform: translateY(0) scale(1) rotate(0deg);
     opacity: 0.9;
   }
+
   20% {
     /* 突然破碎，轻微旋转 */
     transform: translateY(-15px) scale(1.15) rotate(3deg);
     opacity: 1;
   }
+
   50% {
     /* 开始被吸入，旋转角度增大 */
     transform: translateY(-30px) scale(0.85) rotate(-4deg);
     opacity: 0.8;
   }
+
   80% {
     /* 继续被吸入，旋转角度更大 */
     transform: translateY(-60px) scale(0.5) rotate(6deg);
     opacity: 0.4;
   }
+
   100% {
     /* 完全被吸入 */
     transform: translateY(-100px) scale(0) rotate(-10deg);
