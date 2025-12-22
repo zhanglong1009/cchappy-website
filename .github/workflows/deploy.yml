@@ -28,21 +28,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      # 5. 只 build 有变更的 app
-      - name: Turbo build changed apps
+      # 5. 构建所有apps的包 (Turbo会自动跳过未更新的包)
+      - name: Turbo build
         run: |
-          pnpm turbo run build --filter=...[origin/main]
+          pnpm turbo run build
 
-      # 6. 找出本次 build 的 app
-      - name: Collect changed apps
-        id: changed
-        run: |
-          pnpm turbo run build --filter=...[origin/main] --dry=json \
-          | jq -r '.packages[]' > changed-apps.txt
-
-          echo "changed=$(paste -sd, changed-apps.txt)" >> $GITHUB_OUTPUT
-
-      # 7. 安装七牛 CLI
+      # 6. 安装七牛 CLI
       - name: Install qiniu cli
         run: |
           wget https://github.com/qiniu/qshell/releases/download/v2.9.0/qshell-v2.9.0-linux-amd64.tar.gz
@@ -56,17 +47,19 @@ jobs:
           # 验证安装
           qshell -v
 
-      # 8. 配置七牛
+      # 7. 配置七牛
       - name: Configure Qiniu
         run: |
           qshell account ${{ secrets.QINIU_ACCESS_KEY }} ${{ secrets.QINIU_SECRET_KEY }} qiniu-oss
 
-      # 9. 上传到 OSS（只上传变更的 app）
+      # 8. 上传到 OSS（只上传变更的 app）
       - name: Upload changed apps to Qiniu OSS
         run: |
-          for app in $(cat changed-apps.txt); do
-            name=$(basename $app)
-            dist="$app/dist"
+          rm -f refresh.txt
+
+          for dir in apps/*; do
+            name=$(basename "$dir")
+            dist="$dir/dist"
 
             if [ ! -d "$dist" ]; then
               echo "Skip $name, no dist"
@@ -75,12 +68,26 @@ jobs:
 
             if [ "$name" = "home" ]; then
               echo "Upload home to root"
-              qshell qupload2 --src-dir=$dist --bucket=${{ secrets.QINIU_BUCKET }} --overwrite
+              qshell qupload2 \
+                --src-dir="$dist" \
+                --bucket="${{ secrets.QINIU_BUCKET }}" \
+                --overwrite
+
+              echo "https://${{ secrets.QINIU_CDN_DOMAIN }}/" >> refresh.txt
             else
               echo "Upload $name to /$name"
-              qshell qupload2 --src-dir=$dist --bucket=${{ secrets.QINIU_BUCKET }} --key-prefix="$name/" --overwrite
+              qshell qupload2 \
+                --src-dir="$dist" \
+                --bucket="${{ secrets.QINIU_BUCKET }}" \
+                --key-prefix="$name/" \
+                --overwrite
+
+              echo "https://${{ secrets.QINIU_CDN_DOMAIN }}/$name/" >> refresh.txt
             fi
           done
+
+          echo "CDN refresh list:"
+          cat refresh.txt
 
     
       - name: Generate CDN refresh list
@@ -95,7 +102,7 @@ jobs:
          done
          echo "CDN refresh list:"
          cat refresh.txt
-      # 10. 刷新 CDN 缓存
+      # 9. 刷新 CDN 缓存
       - name: Refresh Qiniu CDN
         run: |
          if [ -s refresh.txt ]; then
