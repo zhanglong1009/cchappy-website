@@ -12,7 +12,7 @@ const tools = [
   {
     title: '海克斯大乱斗出装',
     description: '英雄联盟海克斯大乱斗出装攻略，选择英雄查看详细出装推荐',
-    icon: '🎮',
+    icon: '🤖',
     path: '/hextech-aram'
   }
 ];
