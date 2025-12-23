@@ -4,7 +4,6 @@ export interface Project {
   name: string;
   description: string;
   href: string;
-  port: number;
   baseUrl?: string;
   color: string;
   accent: string;
