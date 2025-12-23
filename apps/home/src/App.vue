@@ -19,16 +19,6 @@ const toggleLang = () => {
 const isZh = computed(() => locale.value === 'zh-CN')
 const isDark = computed(() => theme.value === 'dark')
 
-// 生成项目跳转链接
-const getProjectUrl = (project: typeof projects[0]) => {
-  const isDev = import.meta.env.DEV;
-  if (isDev) {
-    return `http://localhost:${project.port}/`;
-  }
-  // 生产环境使用配置的URL
-  return `${project.href}`;
-};
-
 // 翻译项目列表 - 使用计算属性，使其响应语言变化
 const translatedProjects = computed(() => {
   const currentLocale = locale.value
@@ -85,7 +75,7 @@ const translatedProjects = computed(() => {
 
       <!-- 项目入口网格 -->
       <section class="projects-grid">
-        <a v-for="project in translatedProjects" :key="project.id" :href="getProjectUrl(project)"
+        <a v-for="project in translatedProjects" :key="project.id" :href="project.href"
           :class="['project-card', `project-card-${project.id}`]" :style="{
             '--accent-color': project.accent,
             '--card-color': project.color,
