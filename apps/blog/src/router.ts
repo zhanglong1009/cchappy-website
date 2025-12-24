@@ -1,9 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from './views/Home.vue'
 import BlogDetail from './views/BlogDetail.vue'
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes: [
     {
       path: '/',
@@ -11,7 +11,7 @@ const router = createRouter({
       component: Home
     },
     {
-      path: '/blog/:id',
+      path: '/detail/:id',
       name: 'blog-detail',
       component: BlogDetail,
       props: true
