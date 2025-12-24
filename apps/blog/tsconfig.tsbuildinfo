@@ -1,1 +1,1 @@
-{"root":["./src/main.ts","./src/app.vue"],"version":"5.9.3"}
+{"root":["./src/main.ts","./src/router.ts","./src/utils/blogs.ts","./src/app.vue","./src/views/blogdetail.vue","./src/views/home.vue"],"version":"5.9.3"}

@@ -10,6 +10,8 @@
     "typecheck": "vue-tsc -b"
   },
   "dependencies": {
-    "@cchappy/ui": "workspace:*"
+    "@cchappy/ui": "workspace:*",
+    "gray-matter": "^4.0.3",
+    "markdown-it": "^14.1.0"
   }
 }

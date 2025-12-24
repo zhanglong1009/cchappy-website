@@ -1,5 +1,5 @@
 import type { Project } from '../types';
-const { VITE_BASE_URL , VITE_PROJECT_TOOLS_URL, VITE_PROJECT_ANIM_URL } = import.meta.env
+const { VITE_BASE_URL , VITE_PROJECT_TOOLS_URL, VITE_PROJECT_ANIM_URL, VITE_PROJECT_BLOG_URL } = import.meta.env
 
 // 项目数据
 export const projects: Project[] = [
@@ -7,7 +7,7 @@ export const projects: Project[] = [
     id: 'blog',
     name: 'Blog',
     description: '思考与记录',
-    href: 'https://zhanglong1009.github.io/',
+    href: VITE_BASE_URL + VITE_PROJECT_BLOG_URL,
     color: '#fafafa',
     accent: '#FF6B6B',
     backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(255, 107, 107, 0.2) 0%, transparent 50%), linear-gradient(135deg, rgba(255, 150, 150, 0.15) 0%, rgba(255, 220, 220, 0.18) 100%), repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255, 107, 107, 0.06) 10px, rgba(255, 107, 107, 0.06) 20px)',
