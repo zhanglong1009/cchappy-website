@@ -75,7 +75,7 @@ const getTimelineSide = (index: number) => {
               
               <!-- 阅读全文按钮 -->
               <div class="blog-footer">
-                <router-link :to="`/blog/${blog.id}`" class="read-more">
+                <router-link :to="`/detail/${blog.id}`" class="read-more">
                   阅读全文 →
                 </router-link>
               </div>
