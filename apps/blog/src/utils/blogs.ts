@@ -15,26 +15,27 @@ md = new MarkdownIt({
 })
 
 // 添加自定义图片渲染规则，处理相对路径
-const defaultImageRender = md.renderer.rules.image || function(tokens, idx, options, _env, self) {
+const defaultImageRender = md.renderer.rules.image || function (tokens, idx, options, _env, self) {
   return self.renderToken(tokens, idx, options);
 };
 
-md.renderer.rules.image = function(tokens, idx, options, env, self) {
+md.renderer.rules.image = function (tokens, idx, options, env, self) {
   const token = tokens[idx];
   const srcIndex = token.attrIndex('src');
-  
+
   if (srcIndex >= 0) {
     let src = token.attrs![srcIndex][1];
-    
+
     // 处理相对路径图片
     if (src.startsWith('../images/')) {
       // 提取图片文件名
       const imgName = src.split('../images/')[1];
       // 构建后，public/images/ 会被复制到根目录，所以使用 /images/ 路径
-      token.attrs![srcIndex][1] = `/images/${imgName}`;
+      const imgPrefix = import.meta.env.DEV ? '' : '/blog'
+      token.attrs![srcIndex][1] = `${imgPrefix}/images/${imgName}`;
     }
   }
-  
+
   return defaultImageRender(tokens, idx, options, env, self);
 };
 
@@ -56,29 +57,29 @@ function parseFrontMatter(content: string): { meta: BlogMeta; content: string } 
   // 匹配 YAML front matter
   const frontMatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n/;
   const match = content.match(frontMatterRegex);
-  
+
   let meta: Partial<BlogMeta> = {};
   let mdContent = content;
-  
+
   if (match) {
     const frontMatter = match[1];
     mdContent = content.slice(match[0].length);
-    
+
     // 解析 YAML 格式的元数据
     const lines = frontMatter.split('\n');
-    
+
     for (const line of lines) {
       const trimmedLine = line.trim();
       if (!trimmedLine || trimmedLine.startsWith('#')) {
         continue;
       }
-      
+
       // 处理 key: value 格式
       const [key, ...valueParts] = trimmedLine.split(':');
       if (key && valueParts.length > 0) {
         const trimmedKey = key.trim();
         const value = valueParts.join(':').trim();
-        
+
         if (trimmedKey === 'tags') {
           // 处理 tags: [Vue, 性能] 格式
           const tagsMatch = value.match(/\[(.*?)\]/);
@@ -92,16 +93,16 @@ function parseFrontMatter(content: string): { meta: BlogMeta; content: string } 
       }
     }
   }
-  
+
   // 确保必要的字段存在
   if (!meta.title) {
     meta.title = '未命名博客';
   }
-  
+
   if (!meta.date) {
     meta.date = new Date().toISOString();
   }
-  
+
   return {
     meta: meta as BlogMeta,
     content: mdContent
@@ -117,14 +118,14 @@ const allBlogs: Blog[] = Object.entries(blogFiles).map(([filePath, content]) => 
   const idMatch = filePath.match(/([^/]+)\.md$/)?.[1]
   const id = idMatch || ''
   if (!id) return null
-  
+
   const { meta, content: mdContent } = parseFrontMatter(content as string)
-  
+
   // 提取摘要，取<!-- more -->之前的内容或者前150个字符
   const excerptMatch = mdContent.match(/^(.*?)<!-- more -->/s)
   let excerpt = excerptMatch ? excerptMatch[1] : mdContent.slice(0, 150)
   excerpt = excerpt.replace(/\n/g, ' ').trim()
-  
+
   return {
     id,
     meta,
