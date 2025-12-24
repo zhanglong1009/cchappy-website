@@ -15,7 +15,7 @@ md = new MarkdownIt({
 })
 
 // 添加自定义图片渲染规则，处理相对路径
-const defaultImageRender = md.renderer.rules.image || function(tokens, idx, options, env, self) {
+const defaultImageRender = md.renderer.rules.image || function(tokens, idx, options, self) {
   return self.renderToken(tokens, idx, options);
 };
 
