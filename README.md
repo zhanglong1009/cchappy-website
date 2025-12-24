@@ -126,6 +126,18 @@ pnpm typecheck
 
 ## 自动化部署
 
+### PR 检查流程
+
+当你提交 Pull Request 到 `main` 分支时，项目会自动运行 PR 检查流程，确保代码质量和可构建性：
+
+1. **触发条件**：提交 Pull Request 到 `main` 分支
+2. **检查内容**：
+   - 类型检查 (`pnpm typecheck`)
+   - 构建检查 (`pnpm turbo run build --no-cache`)
+3. **运行环境**：Ubuntu 最新版本，Node.js 22
+4. **通过标准**：所有检查项必须通过，否则 PR 将无法合并
+5. **检查结果**：检查结果会显示在 Pull Request 页面，便于查看和修复问题
+
 ### CI/CD 工作流
 
 本项目配置了完整的 CI/CD 工作流，基于 GitHub Actions 实现自动化构建和部署：

@@ -122,6 +122,20 @@ pnpm typecheck
 
 ## Automated Deployment
 
+### PR Check Process
+
+When you submit a Pull Request to the `main` branch, the project automatically runs a PR check process to ensure code quality and buildability:
+
+1. **Trigger Condition**: Submit a Pull Request to the `main` branch
+2. **Check Contents**:
+   - Type Checking (`pnpm typecheck`)
+   - Build Checking (`pnpm turbo run build --no-cache`)
+3. **Runtime Environment**: Latest Ubuntu version, Node.js 22
+4. **Passing Criteria**: All checks must pass, otherwise the PR cannot be merged
+5. **Check Results**: Check results will be displayed on the Pull Request page for easy viewing and fixing
+
+Please ensure your code passes local checks before submission to reduce the likelihood of PR check failures:
+
 ### CI/CD Workflow
 
 The project is configured with a complete CI/CD workflow based on GitHub Actions for automated building and deployment:
