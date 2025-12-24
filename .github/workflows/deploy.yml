@@ -113,7 +113,7 @@ jobs:
                 --key-prefix="$name/" \
                 --overwrite
 
-            echo "https://${{ secrets.QINIU_CDN_DOMAIN }}/$name/" >> refresh.txt
+            echo "https://${{ secrets.QINIU_CDN_DOMAIN }}/$name/index.html" >> refresh.txt
             done
 
             if [ -f refresh.txt ]; then
