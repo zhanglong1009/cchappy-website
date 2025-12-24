@@ -1,8 +1,7 @@
 ---
 title: Token无感刷新
 date: 2024-03-12 14:00:00
-categories: #分类
-- 业务场景
+tags: [业务]
 ---
 基于axios的token无感刷新，用户登录接口会返回两个token，一个 access_token（30分钟有效期），一个 refresh_token（7天有效期）。访问接口需要在请求头带上 access_token，如果access_token过期，则需要使用refresh_token去重新获取access_token。实现用户无感刷新token效果。``双token一般用于单点登录(单点登录会在之后的文章中更新)``
 <!-- more -->
