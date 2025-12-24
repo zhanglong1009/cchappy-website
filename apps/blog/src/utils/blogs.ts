@@ -15,7 +15,7 @@ md = new MarkdownIt({
 })
 
 // 添加自定义图片渲染规则，处理相对路径
-const defaultImageRender = md.renderer.rules.image || function(tokens, idx, options, self) {
+const defaultImageRender = md.renderer.rules.image || function(tokens, idx, options, env, self) {
   return self.renderToken(tokens, idx, options);
 };
 
@@ -26,10 +26,12 @@ md.renderer.rules.image = function(tokens, idx, options, env, self) {
   if (srcIndex >= 0) {
     let src = token.attrs![srcIndex][1];
     
-    // 处理相对路径图片，将 ../images/ 替换为 /src/images/
+    // 处理相对路径图片
     if (src.startsWith('../images/')) {
-      src = src.replace('../images/', '/src/images/');
-      token.attrs![srcIndex][1] = src;
+      // 提取图片文件名
+      const imgName = src.split('../images/')[1];
+      // 构建后，public/images/ 会被复制到根目录，所以使用 /images/ 路径
+      token.attrs![srcIndex][1] = `/images/${imgName}`;
     }
   }
   
