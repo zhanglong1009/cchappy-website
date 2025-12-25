@@ -32,16 +32,6 @@ const translatedProjects = computed(() => {
 
 <template>
   <div class="app">
-    <!-- 背景特效 -->
-    <div class="background-effects" :style="{
-      '--mouse-x': mousePos.x,
-      '--mouse-y': mousePos.y
-    }">
-      <div class="bg-circle bg-circle-1"></div>
-      <div class="bg-circle bg-circle-2"></div>
-      <div class="bg-circle bg-circle-3"></div>
-    </div>
-
     <!-- 顶部导航 -->
     <header class="header">
       <div class="header-inner">

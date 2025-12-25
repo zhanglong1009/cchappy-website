@@ -29,12 +29,13 @@ onMounted(() => {
     applyTheme();
   }
 });
+
 </script>
 
 <template>
   <header class="header">
     <div class="header-inner">
-      <h1 class="logo"><a :href="getLinkUrl('http://localhost:5172')">cchappy</a></h1>
+      <h1 class="logo"><a :href="getLinkUrl('https://www.cchappy.top')">cchappy</a></h1>
     </div>
   </header>
 </template>
