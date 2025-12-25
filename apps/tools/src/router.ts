@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import Home from './views/Home.vue';
-import Base64Converter from './tools/base64/Base64Converter.vue';
 import HextechAram from './tools/hextech-aram/HextechAram.vue';
+import PixelAvatar from './tools/pixel-avatar/PixelAvatar.vue';
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -12,14 +12,14 @@ const router = createRouter({
       meta: { title: '工具集' }
     },
     {
-      path: '/base64',
-      component: Base64Converter,
-      meta: { title: 'Base64 转换器' }
-    },
-    {
       path: '/hextech-aram',
       component: HextechAram,
       meta: { title: '海克斯大乱斗出装' }
+    },
+    {
+      path: '/pixel-avatar',
+      component: PixelAvatar,
+      meta: { title: '像素头像生成器' }
     }
   ]
 });

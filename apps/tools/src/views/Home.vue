@@ -4,16 +4,16 @@ import ToolCard from '../components/ToolCard.vue';
 // 工具列表数据
 const tools = [
   {
-    title: 'Base64转换器',
-    description: '支持Base64编码与解码，轻松实现字符串和Base64格式的相互转换',
-    icon: '🔢',
-    path: '/base64'
-  },
-  {
     title: '海克斯大乱斗出装',
     description: '英雄联盟海克斯大乱斗出装攻略，选择英雄查看详细出装推荐',
     icon: '🤖',
     path: '/hextech-aram'
+  },
+  {
+    title: '随机头像生成器',
+    description: '使用Dicebear API生成多种风格的随机头像，支持下载和重新生成',
+    icon: '😍',
+    path: '/pixel-avatar'
   }
 ];
 </script>
