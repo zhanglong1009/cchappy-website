@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // 导入模块化组件和 composables
-import { useTheme, useMousePos } from '@cchappy/ui';
+import { useTheme } from '@cchappy/ui';
 import { computed } from 'vue';
 import { projects } from './utils/projects';
 import { useI18n } from 'vue-i18n';
@@ -8,7 +8,6 @@ const { t, locale } = useI18n();
 
 // 使用 composables 管理状态和逻辑
 const { theme, toggleTheme } = useTheme();
-const { mousePos } = useMousePos();
 
 // 自定义切换语言函数
 const toggleLang = () => {
