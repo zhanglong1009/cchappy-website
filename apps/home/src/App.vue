@@ -44,7 +44,7 @@ const translatedProjects = computed(() => {
           <button class="nav-button theme-button" @click="toggleTheme" aria-label="Toggle theme">
             {{ isDark ? '☀️' : '🌙' }}
           </button>
-          <a class="git-button" href="https://github.com/zhanglong1009/cchappy-website">
+          <a class="git-button" target="_blank" href="https://github.com/zhanglong1009/cchappy-website">
             <img v-if="isDark" class="git-icon" src="@/assets/github-dark.svg" alt="github" />
             <img v-else class="git-icon" src="@/assets/github-light.svg" alt="github" />
           </a>

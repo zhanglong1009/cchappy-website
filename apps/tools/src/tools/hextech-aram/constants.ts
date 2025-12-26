@@ -152,7 +152,7 @@ export const championAliases: Record<string, string[]> = {
   'Vladimir': ['吸血鬼', '猩红收割者'],
   'Volibear': ['狗熊', '雷霆咆哮'],
   'Warwick': ['狼人', '祖安怒兽'],
-  'Wukong': ['猴子', '齐天大圣', '悟空'],
+  'MonkeyKing': ['猴子', '齐天大圣', '悟空'],
   'Xayah': ['霞', '逆羽'],
   'Xerath': ['泽拉斯', '远古巫灵'],
   'XinZhao': ['赵信', '德邦总管', '德邦'],

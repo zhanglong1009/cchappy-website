@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Tools 应用主组件
-import { Footer, useTheme } from '@cchappy/ui';
+import { useTheme } from '@cchappy/ui';
 
 // 使用组合式函数
 useTheme();
@@ -12,9 +12,6 @@ useTheme();
     <main class="main">
       <router-view />
     </main>
-
-    <!-- 底部组件 -->
-    <Footer />
   </div>
 </template>
 
