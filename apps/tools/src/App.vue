@@ -12,9 +12,6 @@ useTheme();
     <main class="main">
       <router-view />
     </main>
-
-    <!-- 底部组件 -->
-    <Footer />
   </div>
 </template>
 
