@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Tools 应用主组件
-import { Footer, useTheme } from '@cchappy/ui';
+import { useTheme } from '@cchappy/ui';
 
 // 使用组合式函数
 useTheme();
